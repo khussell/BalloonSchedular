@@ -28,6 +28,7 @@
 
 
 
+
  // var renderBalloons= function(){
   //    $("tbody").empty()
 
@@ -73,10 +74,11 @@
     var newName= $("<td>").text(snapshot.val().name)
     var newDestination= $("<td>").text(snapshot.val().destination)
     var newFrequency= $("<td>").text(snapshot.val().frequency)
-    var newFirstArrival= $("<td>").text(snapshot.val().firstArrival)
+    var newFirstArrival= $("<td>").text(snapshot.val().nextBalloon)
+    var newMinutesAway= $("<td>").text(snapshot.val().minutesAway)
    
 
-    newRow.append(newStyle, newName, newDestination, newFrequency, newFirstArrival)
+    newRow.append(newStyle, newName, newDestination, newFrequency, newFirstArrival, newMinutesAway)
     $("tbody").append(newRow)
 
 
@@ -95,15 +97,37 @@
       frequency= $("#frequencyInput").val().trim()
       pic=  $("input[name='exampleRadios']:checked").val();
 
+      var currentTime= moment()
+      var firstDeparture= $("#departInput").val().trim()
+      var firstDepartureCon= moment(firstDeparture, "hh:mm");
+      var difference=  moment().diff(moment(firstDepartureCon),"minutes")
+      console.log(firstDepartureCon)
+      console.log(firstDeparture);
+      console.log(difference)
+
+        
+    var remainder = difference % frequency;
+    console.log(remainder);
+
+
+    var tMinutesTillBalloon = frequency - remainder;
+    console.log("MINUTES TILL TRAIN: " + tMinutesTillBalloon);
+
+    var nextBalloon= currentTime + (moment().diff(moment(firstDepartureCon)- frequency))
+    var nextBalloonConverted= moment(nextBalloon).format("h:mm")
+
+
+
+
       console.log(pic)
 
       database.ref().push({
           name: name,
           destination: destination,
-          firstArrival: departs,
+          nextBalloon: nextBalloonConverted,
           frequency: frequency,
-          pic: pic
-          
+          pic: pic,
+          minutesAway: tMinutesTillBalloon
       })
 
 
