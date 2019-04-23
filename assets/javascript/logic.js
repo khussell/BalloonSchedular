@@ -111,6 +111,7 @@
 
       var firstDeparture= departs
       var firstDepartureCon= moment(firstDeparture, "HH:mm").subtract(1, "years");
+      var firstDepartCon= moment(firstDeparture, "HH:mm").subtract(1, "years").format("h:mm")
       var firstDepartureXCon= moment(firstDeparture, "HH:mm").format("X")
       var difference=  now.diff(moment(firstDepartureCon),"minutes")
       console.log(firstDepartureCon)
@@ -132,6 +133,7 @@
     console.log("nextBalloon: " + nextBalloon)
 
     var nextBalloonConverted= moment(nextBalloon, "HH:mm").format("h:mm")
+    var nextBalloonConvertedX= moment(nextBalloon, "HH:mm").format("X")
     console.log("nextBalloonConverted" +nextBalloonConverted)
 
 
@@ -143,13 +145,13 @@
           
           name: name,
           destination: destination,
-          firstDepart: departs,
+          firstDepart: firstDepartCon,
           nextBalloon: nextBalloonConverted,
           frequency: frequency,
           pic: pic,
           minutesAway: tMinutesTillBalloon,
           moment: nowConverted,
-          current: firstDepartureXCon
+          current: nextBalloonConvertedX
       })
 
       $("#nameInput").val("")
@@ -169,48 +171,43 @@
     var nowNow= moment()
     var nowNowCon= moment(nowNow).format("X")
 
-    console.log(nowNowCon)
+    console.log("now" +nowNowCon)
+    
 
     for (var i=0; i < keys.length; i ++){
+     
         key= keys[i]
         console.log(key)
 
         console.log(balloons[key].name)
+        var currentBalloonX = balloons[key].current
+        var currentBalloonX = parseInt(currentBalloonX)
+        console.log("current balloon x:" + currentBalloonX)
 
-        var nextBalloonConverted = moment(balloons[key].nextBalloon, "h:mm").format("X")
-        console.log(nextBalloonConverted)
-
+       var frequency= (balloons[key].frequency) * 60
+       console.log("freq: "+ frequency)
         
-       if(nowNowCon > nextBalloonConverted){
+       if(nowNowCon > currentBalloonX){
 
-        var newNextBalloonX = (nextBalloonConverted + (frequency * 60))
+        var newNextBalloonX = (currentBalloonX + frequency)
         var newNextBalloonCon = moment(newNextBalloonX, "X").format("h:mm")
 
-        console.log(newNextBalloonX)
-        console.log(newNextBalloonCon)
-
+        console.log("nextballoon x adding frequency"+ newNextBalloonX)
+        console.log("should be h:mm " +newNextBalloonCon)
+        var path= "balloons" + key
+        console.log(path)
 
         
-  
-  
-  
+         
 
-  
+
+
+
+      }
         
+}
 
-
-
-
-
-
-
-
-    }
-        
-
-
-
-  }
+ 
 
   })
 
