@@ -18,6 +18,7 @@ function renderBalloons() {
 
         var newImage= $("<img>").attr("src", "assets/images/" +balloons[i])
                                 .attr("height", "100px")
+                                
 
          
 
@@ -95,6 +96,8 @@ function renderBalloons() {
     $("#departInput").val("")
     $("#frequencyInput").val("")
     $("input[name='balloonRadios']:checked").prop('checked', false); 
+    
+   
    
 
 })
@@ -153,15 +156,16 @@ function renderBalloons() {
     var newRow= $("<tr>").attr("id", "row" )
 
     var newImg= $("<img>").attr("src", childSnapshot.val().pic)
-                          .attr("height", "40px")
+                          .attr("height", "50px")
+                          .addClass("imgStyle")
     var newStyle= $("<td>")
     newStyle.append(newImg)
 
-    var newName= $("<td>").text(name)
-    var newDestination= $("<td>").text(destination)
-    var newFrequency= $("<td>").text(frequency)
-    var newArrival= $("<td>").text(readableNextBalloon)
-    var minutesUntilText= $("<td>").text(minutesUntil)
+    var newName= $("<td>").text(name).addClass("align-middle")
+    var newDestination= $("<td>").text(destination).addClass("align-middle")
+    var newFrequency= $("<td>").text(frequency).addClass("align-middle")
+    var newArrival= $("<td>").text(readableNextBalloon).addClass("align-middle")
+    var minutesUntilText= $("<td>").text(minutesUntil).addClass("align-middle")
    
 
     newRow.append(newStyle, newName, newDestination, newFrequency, newArrival, minutesUntilText)
@@ -176,12 +180,7 @@ function renderBalloons() {
   
 
 
-  //<div class="form-check form-check-inline">
-        //  <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option2" >
-         // <label class="form-check-label" for="exampleRadios3">
-        //      <img src="assets/images/balloon4.jpg" height="100px">
-         // </label>
-        //</div>
+
  
 
 

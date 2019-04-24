@@ -1,0 +1,52 @@
+body{
+    width: 100%;
+    color:#3b899b;
+    font-family: 'Work Sans', sans-serif;
+}
+.head{
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: #3b899b;
+    background-color: white;
+    border: 5px #e9ecef solid;
+    top: 30px;
+    padding-top: 20px;
+    margin-bottom: 60px;
+
+}
+
+
+
+.addBalloon{
+    text-align: center;
+    margin-top: 70px;
+    height: 2000px;
+}
+
+
+img{
+    margin:20px;
+    border-radius: 20%;
+}
+
+.addBalloonCard{
+    height: 1300px;
+}
+
+button{
+    margin-top: 50px;
+    font-weight: bold;
+}
+
+h1{
+    text-shadow: 1px  black;
+}
+
+.imgStyle:hover{
+    height: 200px;
+}
+
+
+
+
