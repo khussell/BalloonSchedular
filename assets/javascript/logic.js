@@ -1,4 +1,42 @@
 
+var balloons= ["balloon1.jpg","balloon2.jpg","balloon3.jpg","balloon5.jpg","balloon5.png","balloon6.jpg","balloon7.jpg","balloon8.jpeg","balloon9.jpg","balloon10.jpg","balloon11.jpg","balloon12.jpg","balloon13.jpg","balloon14.jpg","balloon15.jpeg","balloon16.jpg","balloon17.jpg","balloon18.jpg","balloon19.jpg","balloon20.jpg","balloon21.jpg","balloon22.jpg","balloon23.jpg","balloon24.jpg","balloon25.jpg"]
+
+function renderBalloons() {
+    
+     for (var i=0; i< balloons.length; i ++){
+        var newDiv= $("<div>").addClass("form-check")
+                              .addClass("form-check-inline")
+
+        var newInput= $("<input>").addClass("form-check-input")
+                                  .attr("type", "radio")
+                                  .attr("name", "balloonRadios")
+                                  .attr("id", "balloonRadio" + (i))
+                                  .attr("value","assets/images/" +balloons[i])
+
+        var newLabel= $("<label>").addClass("form-check-label")
+                                  .attr("for", "balloonRadio" + (i))
+
+        var newImage= $("<img>").attr("src", "assets/images/" +balloons[i])
+                                .attr("height", "100px")
+
+         
+
+        
+      
+        newLabel.append(newImage)
+        newDiv.append(newInput, newLabel)
+
+
+        
+        $("#radioPics").append(newDiv)
+       
+
+     }
+     }
+
+     renderBalloons()
+
+
   // Initialize Firebase
   var config = {
     apiKey: "AIzaSyAsJ4cQCryCVbGQGEiGh6zf-oM6WvnIcgE",
@@ -14,6 +52,12 @@
   var database= firebase.database()
 
 
+ 
+  
+
+      
+
+
 
 
   $("#submit").on("click", function(){
@@ -23,7 +67,9 @@
     var destination= $("#destinationInput").val().trim()
     var firstDeparts= moment($("#departInput").val().trim(), "HH:mm").format("X")
     var frequency= $("#frequencyInput").val().trim()
-    var pic=  $("input[name='exampleRadios']:checked").val();
+    var pic=  $("input[name='balloonRadios']:checked").val();
+
+    console.log("PIC: " + pic)
 
     var newBalloon = {
       name: name,
@@ -48,6 +94,7 @@
     $("#destinationInput").val("")
     $("#departInput").val("")
     $("#frequencyInput").val("")
+    $("input[name='balloonRadios']:checked").prop('checked', false); 
    
 
 })
@@ -126,64 +173,18 @@
 
   })
 
+  
 
+
+  //<div class="form-check form-check-inline">
+        //  <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option2" >
+         // <label class="form-check-label" for="exampleRadios3">
+        //      <img src="assets/images/balloon4.jpg" height="100px">
+         // </label>
+        //</div>
  
 
-  /*
-  database.ref().on("value", function(snapshot){
-    var balloons= snapshot.val()
-    console.log(balloons)
 
-    var keys= Object.keys(balloons)
-    console.log(keys)
-
-    var nowNow= moment()
-    var nowNowCon= moment(nowNow).format("X")
-
-    console.log("now" +nowNowCon)
-    
-
-    for (var i=0; i < keys.length; i ++){
-     
-        key= keys[i]
-        console.log(key)
-
-        console.log(balloons[key].name)
-        var currentBalloonX = balloons[key].current
-           currentBalloonX = parseInt(currentBalloonX)
-        console.log("current balloon x:" + currentBalloonX)
-
-       var frequency= (balloons[key].frequency) * 60
-       console.log("freq: "+ frequency)
-        
-       if(nowNowCon > currentBalloonX){
-
-        var newNextBalloonX = (currentBalloonX + frequency)
-            newNextBalloonX = String(newNextBalloonX)
-        var newNextBalloonCon = moment(newNextBalloonX, "X").format("h:mm")
-
-        console.log("nextballoon x adding frequency"+ newNextBalloonX)
-        console.log("should be h:mm " +newNextBalloonCon)
-
-
-        var path= "balloons" + key
-        console.log(path)
-
-        
-        
-
-
-
-
-      }
-        
-}
-
- 
-
-  })
-
-  */
 
 
 
@@ -193,6 +194,7 @@
 
 
 
+        
 
 
 
