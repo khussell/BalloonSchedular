@@ -15,15 +15,42 @@
 
 
 
- var name= ""
- var destination=""
- var departs= ""
- var frequency= 0
- var pic= ""
+
+  $("#submit").on("click", function(){
+    event.preventDefault()
+
+    var name= $("#nameInput").val().trim()
+    var destination= $("#destinationInput").val().trim()
+    var firstDeparts= moment($("#departInput").val().trim(), "HH:mm").format("X")
+    var frequency= $("#frequencyInput").val().trim()
+    var pic=  $("input[name='exampleRadios']:checked").val();
+
+    var newBalloon = {
+      name: name,
+      destination: destination,
+      firstDeparts: firstDeparts,
+      frequency: frequency,
+      pic: pic
+    }
+
+    database.ref().push(newBalloon)
+
+
+    console.log(newBalloon.name)
+    console.log(newBalloon.destination)
+    console.log(newBalloon.firstDeparts)
+    console.log(newBalloon.frequency)
+    console.log(newBalloon.pic)
 
 
 
- 
+    $("#nameInput").val("")
+    $("#destinationInput").val("")
+    $("#departInput").val("")
+    $("#frequencyInput").val("")
+   
+
+})
 
 
 
@@ -33,56 +60,64 @@
 
 
 
- // var renderBalloons= function(){
-  //    $("tbody").empty()
-
-   // for (var i=0; i < balloons.length; i++){
 
 
 
 
-        //var newRow= $("<tr>").attr("id", "row" + i)
-
-       // var newImg= $("<img>").attr("src", balloons[i].pic)
-                   //           .attr("height", "40px")
-      //  var newStyle= $("<td>")
-       // newStyle.append(newImg)
-
-      //  var newName= $("<td>").text(balloons[i].name)
-      //  var newDestination= $("<td>").text(balloons[i].destination)
-      //  var newFrequency= $("<td>").text(balloons[i].frequency)
-      //  var newFirstArrival= $("<td>").text(balloons[i].firstArrival)
-       
-
-      //  newRow.append(newStyle, newName, newDestination, newFrequency, newFirstArrival)
-      //  $("tbody").append(newRow)
 
 
-    //}
 
 
- // }
 
-  //renderBalloons()
 
-  database.ref().on("child_added", function(snapshot){
+  database.ref().on("child_added", function(childSnapshot){
+    console.log(childSnapshot)
+
+    var name= childSnapshot.val().name
+    var destination= childSnapshot.val().destination
+    var firstDeparts= childSnapshot.val().firstDeparts
+    var frequency= childSnapshot.val().frequency
+
+    var current= moment().format("X")
+    
+    console.log(firstDeparts)
+
+    var firstDepartsSubtract= moment(firstDeparts, "X").subtract(1, "years")
+    var readableFirstDeparts= moment(firstDepartsSubtract).format("h:mm")
+    console.log("first depart: " + readableFirstDeparts)
+
+    var timeDiff= moment().diff(moment(firstDepartsSubtract,"X"),"minutes")
+    console.log("timeDiff: " + timeDiff)
+
+    var remainder= Math.abs(timeDiff % frequency)
+    console.log("remainder: " + remainder)
+
+    var minutesUntil= frequency - remainder
+    console.log("minutes until: " + minutesUntil)
+
+    var nextBalloon= moment().add(minutesUntil, "minutes")
+    console.log("next: " + nextBalloon)
+     
+    var readableNextBalloon= moment(nextBalloon, "minutes").format("h:mm")
+    console.log("readableNext: " + readableNextBalloon)
+
 
 
     var newRow= $("<tr>").attr("id", "row" )
 
-    var newImg= $("<img>").attr("src", snapshot.val().pic)
+    var newImg= $("<img>").attr("src", childSnapshot.val().pic)
                           .attr("height", "40px")
     var newStyle= $("<td>")
     newStyle.append(newImg)
 
-    var newName= $("<td>").text(snapshot.val().name)
-    var newDestination= $("<td>").text(snapshot.val().destination)
-    var newFrequency= $("<td>").text(snapshot.val().frequency)
-    var newFirstArrival= $("<td>").text(snapshot.val().nextBalloon)
-    var newMinutesAway= $("<td>").text(snapshot.val().minutesAway)
+    var newName= $("<td>").text(name)
+    var newDestination= $("<td>").text(destination)
+    var newFrequency= $("<td>").text(frequency)
+    var newArrival= $("<td>").text(readableNextBalloon)
+    var minutesUntilText= $("<td>").text(minutesUntil)
    
 
-    newRow.append(newStyle, newName, newDestination, newFrequency, newFirstArrival, newMinutesAway)
+    newRow.append(newStyle, newName, newDestination, newFrequency, newArrival, minutesUntilText)
     $("tbody").append(newRow)
 
 
@@ -92,75 +127,9 @@
   })
 
 
-  $("#submit").on("click", function(){
-      event.preventDefault()
+ 
 
-      name= $("#nameInput").val().trim()
-      destination= $("#destinationInput").val().trim()
-      departs= $("#departInput").val().trim()
-      frequency= $("#frequencyInput").val().trim()
-      pic=  $("input[name='exampleRadios']:checked").val();
-
-      var now= moment()
-      var nowConverted= moment(now).format("X")
-      console.log(nowConverted)
-    
-
-      //on click I will find the frequency, first departure time converted to moment object, the difference
-      //between current time moment() and first departure converted time
-
-      var firstDeparture= departs
-      var firstDepartureCon= moment(firstDeparture, "HH:mm").subtract(1, "years");
-      var firstDepartCon= moment(firstDeparture, "HH:mm").subtract(1, "years").format("h:mm")
-      var firstDepartureXCon= moment(firstDeparture, "HH:mm").format("X")
-      var difference=  now.diff(moment(firstDepartureCon),"minutes")
-      console.log(firstDepartureCon)
-      console.log(firstDeparture);
-      console.log("difference: " + difference)
-
-        
-    var remainder = difference % frequency;
-    console.log("remainder: "+ remainder);
-
-
-    var tMinutesTillBalloon = frequency - remainder;
-    console.log("MINUTES TILL balloon: " + tMinutesTillBalloon);
-
-    
-
-    var nextBalloon= now.add(tMinutesTillBalloon, "minutes").format("HH:mm");
-
-    console.log("nextBalloon: " + nextBalloon)
-
-    var nextBalloonConverted= moment(nextBalloon, "HH:mm").format("h:mm")
-    var nextBalloonConvertedX= moment(nextBalloon, "HH:mm").format("X")
-    console.log("nextBalloonConverted" +nextBalloonConverted)
-
-
-
-
-      console.log(pic)
-
-      database.ref().push({
-          
-          name: name,
-          destination: destination,
-          firstDepart: firstDepartCon,
-          nextBalloon: nextBalloonConverted,
-          frequency: frequency,
-          pic: pic,
-          minutesAway: tMinutesTillBalloon,
-          moment: nowConverted,
-          current: nextBalloonConvertedX
-      })
-
-      $("#nameInput").val("")
-      $("#destinationInput").val("")
-      $("#departInput").val("")
-      $("#frequencyInput").val(0)
-  })
-
-
+  /*
   database.ref().on("value", function(snapshot){
     var balloons= snapshot.val()
     console.log(balloons)
@@ -181,7 +150,7 @@
 
         console.log(balloons[key].name)
         var currentBalloonX = balloons[key].current
-        var currentBalloonX = parseInt(currentBalloonX)
+           currentBalloonX = parseInt(currentBalloonX)
         console.log("current balloon x:" + currentBalloonX)
 
        var frequency= (balloons[key].frequency) * 60
@@ -190,15 +159,18 @@
        if(nowNowCon > currentBalloonX){
 
         var newNextBalloonX = (currentBalloonX + frequency)
+            newNextBalloonX = String(newNextBalloonX)
         var newNextBalloonCon = moment(newNextBalloonX, "X").format("h:mm")
 
         console.log("nextballoon x adding frequency"+ newNextBalloonX)
         console.log("should be h:mm " +newNextBalloonCon)
+
+
         var path= "balloons" + key
         console.log(path)
 
         
-         
+        
 
 
 
@@ -210,6 +182,8 @@
  
 
   })
+
+  */
 
 
 
