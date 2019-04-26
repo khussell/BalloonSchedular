@@ -2,6 +2,7 @@ body{
     width: 100%;
     color:#3b899b;
     font-family: 'Work Sans', sans-serif;
+    
 }
 
 .head{
@@ -20,6 +21,7 @@ body{
     text-align: center;
     margin-top: 70px;
     height: 2000px;
+
 }
 
 img{
@@ -41,6 +43,38 @@ h1{
 .imgStyle:hover{
     height: 200px;
 }
+
+
+
+/*large*/
+@media screen and (max-width: 1200px){
+    .addBalloonCard{height: 1400px;}
+}
+
+/*medium*/
+@media screen and (max-width: 992px){
+    .addBalloonCard{height: 1900px;}
+
+    .addBalloon{height: 2500px;}
+}
+
+/*small*/
+@media screen and (max-width: 768px){
+    .addBalloonCard{height: 2400px;}
+
+    .addBalloon{height: 2700px;}
+}
+
+
+/*extra small*/
+@media screen and (max-width: 576px){
+    .addBalloonCard{height: 3100px;}
+
+    .addBalloon{height: 3500px;}
+
+    .head{width: 360px;}
+}
+
 
 
 
