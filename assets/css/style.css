@@ -3,6 +3,7 @@ body{
     color:#3b899b;
     font-family: 'Work Sans', sans-serif;
 }
+
 .head{
     position: relative;
     z-index: 2;
@@ -13,10 +14,7 @@ body{
     top: 30px;
     padding-top: 20px;
     margin-bottom: 60px;
-
 }
-
-
 
 .addBalloon{
     text-align: center;
@@ -24,15 +22,12 @@ body{
     height: 2000px;
 }
 
-
 img{
     margin:20px;
     border-radius: 20%;
 }
 
-.addBalloonCard{
-    height: 1300px;
-}
+.addBalloonCard{height: 1300px;}
 
 button{
     margin-top: 50px;

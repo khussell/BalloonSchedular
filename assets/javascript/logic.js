@@ -1,6 +1,7 @@
 //array to store end of balloon image paths
 var balloons= ["balloon1.jpg","balloon2.jpg","balloon3.jpg","balloon5.jpg","balloon5.png","balloon6.jpg","balloon7.jpg","balloon8.jpeg","balloon9.jpg","balloon10.jpg","balloon11.jpg","balloon12.jpg","balloon13.jpg","balloon14.jpg","balloon15.jpeg","balloon16.jpg","balloon17.jpg","balloon18.jpg","balloon19.jpg","balloon20.jpg","balloon21.jpg","balloon22.jpg","balloon23.jpg","balloon24.jpg","balloon25.jpg"]
 
+
 //a function to display all the balloons each as a radio choice to the div for radios in the form
 function renderBalloons() {
     
