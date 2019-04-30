@@ -31,7 +31,7 @@ img{
 
 .addBalloonCard{height: 1300px;}
 
-button{
+#submit{
     margin-top: 50px;
     font-weight: bold;
 }
@@ -42,6 +42,11 @@ h1{
 
 .imgStyle:hover{
     height: 200px;
+}
+
+#remove{
+    margin-right: 20px;
+    margin-top: 40px;
 }
 
 
