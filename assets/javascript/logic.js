@@ -60,6 +60,12 @@ function renderBalloons() {
 
   var database= firebase.database()
 
+  var ref= database.ref('balloons')
+
+  console.log(ref)
+  
+  
+
 
  
 
@@ -91,7 +97,7 @@ function renderBalloons() {
     }
 
     //putting the above object into the firebase database (using push to make a new branch)
-    database.ref().push(newBalloon)
+    ref.push(newBalloon)
 
     //checking our object's properties and seeing if they all have values
     console.log(newBalloon.name)
@@ -116,7 +122,7 @@ function renderBalloons() {
 
 
 //on child added to the database we will get a snapshot and console log it to make sure it works
-  database.ref().on("child_added", function(childSnapshot){
+  ref.on("child_added", function(childSnapshot){
     console.log(childSnapshot)
 
     //variables for storing snapshot values for each property needed to do math for new properties to be added
@@ -174,14 +180,34 @@ function renderBalloons() {
     var newFrequency= $("<td>").text(frequency).addClass("align-middle")
     var newArrival= $("<td>").text(readableNextBalloon).addClass("align-middle")
     var minutesUntilText= $("<td>").text(minutesUntil).addClass("align-middle")
+
+
+    console.log(childSnapshot.key)
+
+  newRow.attr("data-key", childSnapshot.key)
+
+    var newRemoveButton= $("<button>").text("Remove")
+                                      .attr("id", "remove")
+                                      .attr("data-key", childSnapshot.key)
+                                      .addClass("btn btn-info btn-sm align-middle")
    
     //appending all table data to newRow
-    newRow.append(newStyle, newName, newDestination, newFrequency, newArrival, minutesUntilText)
+    newRow.append(newStyle, newName, newDestination, newFrequency, newArrival, minutesUntilText, newRemoveButton)
     //appending row to table body
     $("tbody").append(newRow)
 
+
+    $("tbody").on("click", "#remove", function(){
+      console.log("button pressed")
+      var key = ($(this).data("key"))
+      ref.child(key).remove();
+      $(this).parent().parent().remove()
+      location.href = location.href
+
   })
 
+  
+})
   
 
 
