@@ -181,14 +181,14 @@ function renderBalloons() {
     var newArrival= $("<td>").text(readableNextBalloon).addClass("align-middle")
     var minutesUntilText= $("<td>").text(minutesUntil).addClass("align-middle")
 
-   //key that holds child
+
     console.log(childSnapshot.key)
 
-  newRow.attr("data-parentKey", childSnapshot.key)
+  newRow.attr("data-key", childSnapshot.key)
 
     var newRemoveButton= $("<button>").text("Remove")
                                       .attr("id", "remove")
-                                      .attr("data-parentKey", childSnapshot.key)
+                                      .attr("data-key", childSnapshot.key)
                                       .addClass("btn btn-info btn-sm align-middle")
    
     //appending all table data to newRow
@@ -196,18 +196,18 @@ function renderBalloons() {
     //appending row to table body
     $("tbody").append(newRow)
 
-     
-    //when table body is clicked and it is a button with id of remove
+
+    //when table is clicked and it is a button with id remove
     $("tbody").on("click", "#remove", function(){
       console.log("button pressed")
 
-      //storing the buttons data-parentKey as key
-      //referencing balloons child in database with same key as button and removing it from database
-      var key = ($(this).data("parentKey"))
+      //key variable is equal to the buttons data-key which is the key holding the snapshot
+      var key = ($(this).data("key"))
+      //database reference of balloons child that is the key will be removed
       ref.child(key).remove();
-      //updating display by removing the buttons parent of it's parent (which is the whole row)
+      //updating display, removing parent of parent of the button (which is the entire row)
       $(this).parent().parent().remove()
-      //reloading page
+      //reload page
       location.href = location.href
 
   })
@@ -215,9 +215,6 @@ function renderBalloons() {
   
 })
   
-
-
-
  
 
 
